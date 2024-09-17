@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 
 export default function Boton(props) {
   const [colorBoton, setColorBoton] = useState("surface-300");
-  const [botonSelecionado, setBotonSelecionado] = useState(false);
   const { i18n } = useTranslation();
 
   let indiceBotones = props.preguntas[props.indicePregunta].opciones[
@@ -13,8 +12,7 @@ export default function Boton(props) {
   const url = process.env.REACT_APP_API_URL + "/preguntas/respuesta";
 
   const handleIndicePreguntas = () => {
-
-    if (!botonSelecionado) {
+    if (!props.botonSelecionado) {
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -27,16 +25,15 @@ export default function Boton(props) {
       };
       fetch(url, requestOptions)
         .then((response) => response.json())
-        .then(
-          (json) => json ? setColorBoton("green-400") : setColorBoton("red-400")
+        .then((json) =>
+          json ? setColorBoton("green-400") : setColorBoton("red-400")
         );
 
-      setBotonSelecionado(true);
+      props.setBotonSelecionado(true);
 
       setTimeout(() => {
-        props.setIndicePregunta(props.indicePregunta + 1);
-        setBotonSelecionado(false);
-      }, 945);
+        props.setBotonSelecionado(false);
+      }, 1000);
     }
   };
 
